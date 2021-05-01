@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const connection = require("./../database/database");
+const connection = require("../database/database");
 
 
 const Categories = connection.define("categories", {
@@ -13,5 +13,4 @@ const Categories = connection.define("categories", {
     }
 });
 
-
-module.exports = Categories;
+module.exports = Category;

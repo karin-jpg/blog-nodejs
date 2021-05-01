@@ -1,15 +1,15 @@
 const express = require("express")
 const app = express();
 
-
+app.set('view engine', 'ejs');
 
 
 app.get("/", (req, res) => {
 
-    res.send("Dale")
+    res.render("index.ejs");
 
 })
 
 app.listen(3000, () => {
-    console.log("vai papai")
+    console.log("servidor ta on");
 })

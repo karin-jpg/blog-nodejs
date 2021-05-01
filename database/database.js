@@ -8,4 +8,4 @@ const connection = new Sequelize("blog", "root", "1234", {
 });
 
 
-module.exports =  connection;
+module.exports = connection;

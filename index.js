@@ -4,7 +4,7 @@ const connection = require("./database/database.js");
 
 
 const categoriesController = require("./categories/CategoriesController");
-
+const articlesController = require("./articles/ArticlesController");
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
@@ -22,7 +22,8 @@ connection
     });
 
 
-app.use("/", categoriesController);
+app.use("/categories", categoriesController);
+app.use("/articles", articlesController);
 
 app.get("/", (req, res) => {
 

@@ -3,6 +3,8 @@ const app = express();
 const connection = require("./database/database.js");
 
 
+const categoriesController = require("./categories/CategoriesController");
+
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
@@ -18,6 +20,9 @@ connection
     .catch((error) => {
         console.log(error);
     });
+
+
+app.use("/", categoriesController);
 
 app.get("/", (req, res) => {
 

@@ -19,6 +19,7 @@ const Article = connection.define("articles", {
 });
 
 Article.belongsTo(Category);
+Article.sync({force: false});
 
 
 module.exports = Article;

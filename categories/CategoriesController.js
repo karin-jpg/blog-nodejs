@@ -79,7 +79,7 @@ router.post("/categories/update", (req, res) => {
     var id = req.body.id;
     var title = req.body.title;
 
-    Category.update({title: title},
+    Category.update({title: title, slug: slugify(title.toLowerCase())},
     {
         where: {
             id : id

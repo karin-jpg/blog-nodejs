@@ -1,0 +1,40 @@
+<%- include('./../../partials/header.ejs') %>
+<%- include('./../../partials/navbar.ejs') %>
+
+<div class="container">
+    <br>
+    <div class="card">
+        <div class="card-header">
+            <h2>Novo artigo</h2>
+        </div>
+        <div class="card-body">
+            <form method = "POST" action="/categories/save">
+                <label for="">Artigo</label>    
+                <input type="text" class="form-control" name="title" id="title" placeholder="Escreva o título do artigo"><br>   
+                <label for="">Corpo</label>
+                <textarea name="body" id="body" class="form-control" placeholder="Escreva o artigo"></textarea><br>
+                <label for="">Categoria</label>
+                <select name="category" class = "form-control">
+                    <%  categories.forEach((category) => {  %>
+                        <option value="<%=category.id%>"><%=category.title%></option>
+                    <%  }) %>
+                </select><br>
+                <button class="btn btn-success">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('./../../partials/footer.ejs') %> 
+<script src="/tinymce/tinymce.min.js"></script>
+<script>
+
+    tinymce.init({
+        language: "pt_BR",
+        selector: "#body",
+        plugins: [
+            'advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste emoticons'
+        ]
+    })
+
+</script>

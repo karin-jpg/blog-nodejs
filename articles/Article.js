@@ -13,7 +13,7 @@ const Article = connection.define("articles", {
         allowNull: false
     },
     body: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(5000),
         allowNull: false
     }
 });

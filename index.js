@@ -12,8 +12,8 @@ const Category = require("./categories/Category");
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
-app.use(express.urlencoded({extended: false}));
-app.use(express.json());
+app.use(express.urlencoded({extended: false, limit: '100mb'} ));
+app.use(express.json({limit: '100mb'}));
 
 
 connection

@@ -71,6 +71,29 @@ app.get("/:slug", (req, res) => {
     });
 });
 
+app.get("/category/:slug", (req, res) => {
+    var slug = req.params.slug;
+
+    Article.findAll({
+        include: [{
+            model: Category,
+            where: {
+                slug: slug
+            }
+        }]
+    }).then((articles) => {
+        if(articles != undefined){
+            Category.findAll().then((categories) => {
+                res.render("index", {articles: articles, categories: categories});
+            })
+        }else{
+            res.redirect("/")
+        }
+    }).catch((error) => {
+        res.redirect("/")
+    })
+});
+
 app.listen(8080, () => {
     console.log("servidor ta on");
 });

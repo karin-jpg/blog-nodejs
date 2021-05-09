@@ -18,7 +18,9 @@ router.get("/admin/articles", (req, res) => {
 
 router.get("/admin/articles/new", (req, res) => {
     Category
-    .findAll()
+    .findAll({
+        order: [['title', 'ASC']]
+    })
     .then((categories) => {
         res.render("admin/articles/new", {categories: categories});
     })
@@ -32,10 +34,18 @@ router.get("/admin/articles/edit/:id", (req, res) => {
     }
 
     Article
-    .findOne()
+    .findOne({
+        where: {
+            id:id
+        }
+    })
     .then((article) => {
         if(article != undefined){
-            Category.findAll().then((categories) => {
+            Category.findAll({
+                order: [
+                    ['title', 'ASC']
+            ]
+            }).then((categories) => {
                 res.render("admin/articles/edit", {article: article, categories: categories})
             });
             
@@ -80,6 +90,8 @@ router.post("/articles/update", (req, res) => {
     })
     .then(() => {
         res.redirect("/admin/articles");
+    }).catch((erro) => {
+        res.redirect("/");
     });
 });
 
@@ -102,6 +114,38 @@ router.post("/articles/delete", (req, res) => {
     }else{
         res.redirect("/admin/articles");
     }
+});
+
+router.get("/articles/page/:num", (req, res) => {
+    var page = req.params.num;
+    var offset = 0;
+    var limit = 5;
+    if(isNaN(page) || page == 1){
+        offset = 0;
+    }else{
+        offset = parseInt(page) * limit;
+    }
+
+    Article.findAndCountAll({
+        limit: limit,
+        offset: offset
+    }).then((articles) => {
+        var next;
+        if(offset + limit >= articles.count){
+            next = false;
+        }else{
+            next = true;
+        }
+
+        var result = {
+            next : next,
+            articles : articles
+            
+        }
+        res.json(result);
+    });
+
+
 });
 
 module.exports = router;

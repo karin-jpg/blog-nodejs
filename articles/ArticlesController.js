@@ -119,8 +119,8 @@ router.post("/articles/delete", (req, res) => {
 router.get("/articles/page/:num", (req, res) => {
     var page = req.params.num;
     var offset = 0;
-    var limit = 5;
-    if(isNaN(page) || page == 1){
+    var limit = 4;
+    if(isNaN(page) || page < 0){
         offset = 0;
     }else{
         offset = parseInt(page) * limit;
@@ -138,11 +138,16 @@ router.get("/articles/page/:num", (req, res) => {
         }
 
         var result = {
+            offset: offset,
             next : next,
             articles : articles
             
         }
-        res.json(result);
+
+        Category.findAll().then((categories) =>{
+            res.render("admin/articles/page", {result: result, categories: categories});
+            //res.json(result)
+        });
     });
 
 

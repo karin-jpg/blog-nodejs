@@ -5,9 +5,11 @@ const connection = require("./database/database.js");
 
 const categoriesController = require("./categories/CategoriesController");
 const articlesController = require("./articles/ArticlesController");
+const usersController = require("./users/UsersController");
 
 const Article = require("./articles/Article");
 const Category = require("./categories/Category");
+const User = require("./users/User");
 
 app.set('view engine', 'ejs');
 
@@ -28,6 +30,7 @@ connection
 
 app.use("/", categoriesController);
 app.use("/", articlesController);
+app.use("/", usersController);
 
 app.get("/", (req, res) => {
 

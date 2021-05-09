@@ -35,7 +35,8 @@ app.get("/", (req, res) => {
     .findAll({
         order: [
             ['id', 'DESC']
-        ]
+        ],
+        limit: 4
     })
     .then((articles) => {
 

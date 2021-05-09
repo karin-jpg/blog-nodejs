@@ -16,8 +16,13 @@
                 <textarea name="body" id="body" class="form-control"><%- article.body %></textarea><br>
                 <select name="category" class = "form-control">
                     <% categories.forEach((category) => { %>
+                        <% if(article.categoryId == category.id){ %>
+                            <option value="<%=category.id%>" selected><%=category.title%></option>
+
+                        <% }else{ %>
                         <option value="<%=category.id%>"><%=category.title%></option>
-                    <% })  %>
+                    <% }
+                            })  %>
                 </select><br>
                 <button class="btn btn-success">Atualizar</button>
             </form>

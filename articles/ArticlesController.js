@@ -63,9 +63,7 @@ router.post("/articles/save", (req, res) => {
     var title = req.body.title;
     var body = req.body.body;
     var category = req.body.category;
-    console.log(title);
-    console.log(body);
-    console.log(category);
+
     Article.create({
         title:title,
         body: body,

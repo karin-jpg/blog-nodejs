@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express();
 const connection = require("./database/database.js");
-
+const session = require("express-session");
 
 const categoriesController = require("./categories/CategoriesController");
 const articlesController = require("./articles/ArticlesController");
@@ -12,6 +12,16 @@ const Category = require("./categories/Category");
 const User = require("./users/User");
 
 app.set('view engine', 'ejs');
+
+
+app.use(session({
+    secret: "evangelion",
+    cookie: {
+        maxAge: 30000000
+    },
+    resave: true,
+    saveUninitialized: true
+}));
 
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: false, limit: '100mb'} ));
@@ -31,6 +41,20 @@ connection
 app.use("/", categoriesController);
 app.use("/", articlesController);
 app.use("/", usersController);
+
+
+app.get("/session", (req, res)=>{
+    req.session.user = {
+        nome: "karin",
+        idade: 21
+    }
+    res.send("sessao gerada");
+});
+
+app.get("/reading", (req, res)=>{
+    res.json(req.session.user)
+});
+
 
 app.get("/", (req, res) => {
 

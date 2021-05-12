@@ -3,6 +3,41 @@ const router = express.Router();
 const User = require("./User");
 const bcrypt = require("bcryptjs");
 
+
+
+router.get("/login", (req, res) =>{
+
+    res.render("admin/users/login");
+});
+
+router.post("/authenticate", (req, res)=>{
+    var name = req.body.name;
+    var password = req.body.password;
+
+
+    User.findOne({
+        where: {
+            name: name
+        }
+    }).then((user) =>{
+        if(user != undefined){
+            var correct = bcrypt.compareSync(password, user.password);
+
+            if(correct){
+                req.session.user = {
+                    id: user.id,
+                    name: user.name
+                }
+                res.json(req.session.user);
+            }else{
+                res.redirect("/login");    
+            }
+        }else{
+            res.redirect("/login");
+        }
+    })
+});
+
 router.get("/admin/users", (req, res) =>{
     User.findAll().then((users) => {
         res.render("admin/users/index", {users: users});

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("./User");
 const bcrypt = require("bcryptjs");
-
+const adminAuth = require("../middlewares/adminAuth");
 
 
 router.get("/login", (req, res) =>{
@@ -28,7 +28,7 @@ router.post("/authenticate", (req, res)=>{
                     id: user.id,
                     name: user.name
                 }
-                res.json(req.session.user);
+                res.redirect("/admin/users");
             }else{
                 res.redirect("/login");    
             }
@@ -38,19 +38,19 @@ router.post("/authenticate", (req, res)=>{
     })
 });
 
-router.get("/admin/users", (req, res) =>{
+router.get("/admin/users", adminAuth, (req, res) =>{
     User.findAll().then((users) => {
         res.render("admin/users/index", {users: users});
     });
 });
 
 
-router.get("/admin/users/create", (req, res) => {
+router.get("/admin/users/create", adminAuth, (req, res) => {
     res.render("admin/users/create");
 });
 
 
-router.post("/users/create", (req, res)=>{
+router.post("/users/create", adminAuth, (req, res)=>{
     var name = req.body.name;
     var email = req.body.email;
     var password = req.body.password;
@@ -80,7 +80,7 @@ router.post("/users/create", (req, res)=>{
 });
 
 
-router.post("/users/update", (req, res) => {
+router.post("/users/update", adminAuth, (req, res) => {
     var id = req.body.id;
     var name = req.body.name;
     var email = req.body.email;
@@ -106,7 +106,7 @@ router.post("/users/update", (req, res) => {
 
 });
 
-router.post("/users/delete", (req, res) => {
+router.post("/users/delete", adminAuth, (req, res) => {
     var id = req.body.id;
 
     if(id != undefined){
@@ -129,7 +129,7 @@ router.post("/users/delete", (req, res) => {
 });
 
 
-router.get("/admin/users/edit/:id", (req, res) =>{
+router.get("/admin/users/edit/:id", adminAuth, (req, res) =>{
     var id = req.params.id;
 
     if(id == undefined || isNaN(id)){
@@ -139,9 +139,6 @@ router.get("/admin/users/edit/:id", (req, res) =>{
             res.render("admin/users/edit", {user:user});
         });
     }
-
-    
-
 });
 
 module.exports = router;

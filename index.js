@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 app.use(session({
     secret: "evangelion",
     cookie: {
-        maxAge: 30000000
+        maxAge: 30000
     },
     resave: true,
     saveUninitialized: true
